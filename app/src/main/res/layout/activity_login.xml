@@ -9,21 +9,12 @@
     tools:context=".login.ActivityLogin">
 
     <EditText
-        android:id="@+id/edtUserName"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/edtPhoneNumber" />
-
-    <EditText
         android:id="@+id/edtPhoneNumber"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:hint="شماره موبایل"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/edtPassword" />
 
@@ -33,21 +24,22 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:hint="رمز عبور"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSign"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="ثبت  نام" />
+        android:text="ورود" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnGoToRegister"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:shadowColor="@android:color/transparent"
-        android:text="ورود"
+        android:text="ثبت نام"
         android:textColor="#000000"
         android:textSize="18sp"
         app:backgroundTint="@android:color/transparent" />

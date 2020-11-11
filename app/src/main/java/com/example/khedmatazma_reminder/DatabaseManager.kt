@@ -1,15 +1,29 @@
 package com.example.khedmatazma_reminder
 
 import android.database.sqlite.SQLiteDatabase
+import android.provider.ContactsContract
 import java.io.File
 
 class DatabaseManager {
 
+    companion object{
+        val TABLE_USERS = "users"
+        val TABLE_TASKS = "tasks"
+        val DB_NAME = "khedmatazma_reminder";
+    }
+
+    private var dbAddress = ""
+
+    public fun setDbAddress(address : String ) : DatabaseManager{
+        dbAddress = address
+        return this
+    }
+
+
+
     //*************situations***********************
     val FIRST_CREATED = 0
-    private val changePermission = true
-    val TABLE_USERS = "users"
-    val TABLE_TASKS = "tasks"
+
 
     //**********************************************
     //var listener: DatabaseManager.OnDatabaseListener? = null
@@ -20,16 +34,12 @@ class DatabaseManager {
 
     var database: SQLiteDatabase? = null
 
-    fun createDb(
-        dirDatabase: String,
-        dataBaseName: String
-    ): Boolean {
-        File(dirDatabase).mkdirs()
-        val file = File("$dirDatabase/$dataBaseName")
+    fun createDb(): Boolean {
+        File(dbAddress).mkdirs()
+        val file = File("$dbAddress/$DB_NAME")
         // file.delete();
         if (!file.exists()) {
-            database = SQLiteDatabase.openOrCreateDatabase("$dirDatabase/$dataBaseName", null)
-
+            database = SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
 
             database?.execSQL(
                 "CREATE  TABLE " + TABLE_USERS +
@@ -54,5 +64,23 @@ class DatabaseManager {
             return true
         }
         return false
+    }
+
+
+    fun insertUser(
+        username : String ,
+        phoneNumber : String ,
+        password : String
+
+    ): Boolean {
+        val database =
+            SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
+        //dont forget to put boolean's  in '' => 'value'
+        database.execSQL(
+            "INSERT INTO " + TABLE_USERS + " (username ,phone_number,password)" +
+                    " VALUES ('" + username + "','" + phoneNumber + "','" + password + "')")
+
+        database.close()
+        return true
     }
 }

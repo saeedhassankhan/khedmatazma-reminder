@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.khedmatazma_reminder.login.ActivityLogin
+import com.example.khedmatazma_reminder.login.ActivityRegister
 
 
 class ActivitySplash : AppCompatActivity() {
@@ -14,7 +15,7 @@ class ActivitySplash : AppCompatActivity() {
         val thread: Thread = object : Thread() {
             override fun run() {
                 sleep(2000)
-                val i = Intent(baseContext, ActivityLogin::class.java)
+                val i = Intent(baseContext, ActivityRegister::class.java)
                 startActivity(i)
                 finish()
             }
