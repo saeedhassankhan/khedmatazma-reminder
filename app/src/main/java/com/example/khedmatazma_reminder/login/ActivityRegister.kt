@@ -1,9 +1,9 @@
 package com.example.khedmatazma_reminder.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.khedmatazma_reminder.CToast
-import com.example.khedmatazma_reminder.R
+import com.example.khedmatazma_reminder.*
 import com.example.khedmatazma_reminder.login.Validator.Companion.CORRECT
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -14,13 +14,14 @@ class ActivityRegister : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
 
-
-
-
         btnRegister.setOnClickListener(){
             validate()
 
+        }
 
+        btnGoToSign.setOnClickListener(){
+            startActivity(Intent(baseContext , ActivityLogin::class.java))
+            finish()
         }
 
     }
@@ -43,6 +44,18 @@ class ActivityRegister : AppCompatActivity() {
             toast.show(baseContext , vPhoneNumber)
         }else if(validation.pass(pass) != CORRECT){
             toast.show(baseContext , vPass)
+        }else{
+            register(userName , phoneNumber , pass)
         }
+    }
+
+
+    fun register(userName : String , phoneNumber:String , pass : String){
+        var db = DatabaseManager().setDbAddress(G.DIR_APP!!)
+        var insertedId = db.insertUser(userName , phoneNumber , pass)
+        var cPrefrence = CPrefrence()
+        cPrefrence.save(GLOBAL_VALUES.LOGGED_IN_USER_ID , insertedId )
+        startActivity(Intent(baseContext , ActivityTasks::class.java))
+        finish()
     }
 }

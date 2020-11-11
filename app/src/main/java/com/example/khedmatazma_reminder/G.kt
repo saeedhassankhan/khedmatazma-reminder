@@ -1,20 +1,21 @@
 package com.example.khedmatazma_reminder
 
 import android.app.Application
-import com.example.khedmatazma_reminder.DatabaseManager.Companion.DB_NAME
-import com.example.khedmatazma_reminder.DatabaseManager.Companion.TABLE_USERS
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import java.io.File
 
 class G : Application(){
     companion object{
         var DIR_APP: String? = null
+        lateinit  var  preferences : SharedPreferences ;
     }
 
     override fun onCreate() {
         super.onCreate()
         DIR_APP = getExternalFilesDir(null)!!.absolutePath
 
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(this)
         //startService(new Intent(this , StickyService.class));
         File(DIR_APP).mkdirs()
 
@@ -22,9 +23,5 @@ class G : Application(){
 
         databaseManager.createDb()
 
-
-        for (i in 1..5){
-            databaseManager.insertUser( "user" + i , "phone" + i, "pass" + i);
-        }
     }
 }
