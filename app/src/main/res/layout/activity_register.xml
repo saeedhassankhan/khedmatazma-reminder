@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".login.ActivityRegister">
+
+    <EditText
+        android:id="@+id/edtPhoneNumber"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ems="10"
+        android:hint="شماره موبایل"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/edtPassword" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ems="10"
+        android:hint="رمز عبور"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ورود" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:shadowColor="@android:color/transparent"
+        android:text="ثبت نام"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:backgroundTint="@android:color/transparent" />
+</LinearLayout>
