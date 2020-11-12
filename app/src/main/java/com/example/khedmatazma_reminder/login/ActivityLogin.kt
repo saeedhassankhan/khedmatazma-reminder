@@ -33,7 +33,7 @@ class ActivityLogin : AppCompatActivity() {
         var id = db.searchUser(phoneNumber , password)
 
         if(id != "0") {
-            Prefrences.save(GLOBAL_VALUES.LOGGED_IN_USER_ID, id.toInt())
+            G.setLogedInId(id.toInt())
 
             startActivity(Intent(baseContext, ActivityTasks::class.java))
 

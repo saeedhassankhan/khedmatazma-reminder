@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 /**
  * Created by saeed on 2/6/2016.
  */
-public class Prefrences {
+public class CPrefrences {
     public static String MAIL_BOX =  "mailbox";
     public static void save(String key, int value){
         SharedPreferences.Editor editor= G.preferences.edit();

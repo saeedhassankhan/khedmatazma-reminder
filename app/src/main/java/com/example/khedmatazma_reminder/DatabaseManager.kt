@@ -8,7 +8,7 @@ import java.io.File
 
 class DatabaseManager {
 
-    companion object{
+    companion object {
         val TABLE_USERS = "users"
         val TABLE_TASKS = "tasks"
         val DB_NAME = "khedmatazma_reminder";
@@ -16,11 +16,10 @@ class DatabaseManager {
 
     private var dbAddress = G.DIR_APP
 
-    public fun setDbAddress(address : String ) : DatabaseManager{
+    public fun setDbAddress(address: String): DatabaseManager {
         dbAddress = address
         return this
     }
-
 
 
     //*************situations***********************
@@ -57,7 +56,7 @@ class DatabaseManager {
                         "(" + TABLE_TASKS + "_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE " +
                         ",title STRING" +
                         ",description STRING" +
-                        ",fk_user STRING"+
+                        ",fk_user STRING" +
                         ")"
             )
 
@@ -73,9 +72,9 @@ class DatabaseManager {
      * return id of added item
      */
     fun insertUser(
-        username : String ,
-        phoneNumber : String ,
-        password : String
+        username: String,
+        phoneNumber: String,
+        password: String
 
     ): Int {
         val database =
@@ -83,10 +82,11 @@ class DatabaseManager {
         //dont forget to put boolean's  in '' => 'value'
         database.execSQL(
             "INSERT INTO " + TABLE_USERS + " (username ,phone_number,password)" +
-                    " VALUES ('" + username + "','" + phoneNumber + "','" + password + "')")
+                    " VALUES ('" + username + "','" + phoneNumber + "','" + password + "')"
+        )
 
 
-        val id = getLastRowId(database , TABLE_USERS)
+        val id = getLastRowId(database, TABLE_USERS)
 
         database.close()
 
@@ -94,26 +94,41 @@ class DatabaseManager {
 
     }
 
-    public fun searchUser(phone : String , password: String) : String{
+    public fun searchUser(phone: String, password: String): String {
         val db =
             SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
 
-        var cursor : Cursor
-         cursor = db.rawQuery(
+        var cursor: Cursor
+        cursor = db.rawQuery(
             "SELECT * FROM " + TABLE_USERS + " WHERE "
-                     + "phone_number = '" + phone + "' AND password =  '" + password +  "'" , null
+                    + "phone_number = '" + phone + "' AND password =  '" + password + "'", null
         )
 
         var id = "0"
-        if(cursor.count > 0){
+        if (cursor.count > 0) {
             cursor.moveToLast()
             id = cursor.getString(cursor.getColumnIndex(TABLE_USERS + "_id"))
         }
 
-        Log.i("I" , cursor.toString())
-
         return id
 
+    }
+
+     fun registerTask(id: Int, title: String, desc: String): Int {
+        val database =
+            SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
+        //dont forget to put boolean's  in '' => 'value'
+        database.execSQL(
+            "INSERT INTO " + TABLE_TASKS + " (title , description , fk_user)" +
+                    " VALUES ('" + title + "','" + desc + "','" + id + "')"
+        )
+
+
+        val id = getLastRowId(database, TABLE_TASKS)
+
+        database.close()
+
+        return id
     }
 
     private fun getLastRowId(database: SQLiteDatabase, tbName: String): Int {

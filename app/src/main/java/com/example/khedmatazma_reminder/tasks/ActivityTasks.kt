@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.khedmatazma_reminder.CToast
+import com.example.khedmatazma_reminder.DatabaseManager
+import com.example.khedmatazma_reminder.G
 import com.example.khedmatazma_reminder.R
 import kotlinx.android.synthetic.main.activity_tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.*
@@ -51,12 +52,16 @@ class ActivityTasks : AppCompatActivity() {
 
         var  dialog =  Dialog(activity);
 
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_new_task);
 
         dialog.btnRegisterNewTask.setOnClickListener(){
-
+            var title = dialog.edtTaskTitle.text.toString()
+            var desc = dialog.edtTaskDesc.text.toString()
+            var db = DatabaseManager()
+            db.registerTask(G.getLogedInId() , title , desc)
         }
 
         dialog.btnCancelNewTask.setOnClickListener(){

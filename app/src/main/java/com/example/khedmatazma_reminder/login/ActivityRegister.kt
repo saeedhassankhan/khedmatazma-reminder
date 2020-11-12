@@ -54,8 +54,7 @@ class ActivityRegister : AppCompatActivity() {
     fun register(userName : String , phoneNumber:String , pass : String){
         var db = DatabaseManager().setDbAddress(G.DIR_APP!!)
         var insertedId = db.insertUser(userName , phoneNumber , pass)
-        var cPrefrence = CPrefrence()
-        cPrefrence.save(GLOBAL_VALUES.LOGGED_IN_USER_ID , insertedId )
+        G.setLogedInId(insertedId)
         startActivity(Intent(baseContext , ActivityTasks::class.java))
         finish()
     }
