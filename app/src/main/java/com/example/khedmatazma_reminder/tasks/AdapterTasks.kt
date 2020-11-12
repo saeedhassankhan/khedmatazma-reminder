@@ -7,6 +7,7 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.khedmatazma_reminder.R
+import kotlinx.android.synthetic.main.struct_task.view.*
 
 import java.util.ArrayList
 
@@ -34,12 +35,16 @@ class AdapterTasks(
     }
 
     override fun onBindViewHolder(hl: ViewHolder, position: Int) {
-        val reservedUser = arrayList!![position]
+        val task = arrayList!![position]
 
         if (itemCount - 1 == position && onScrollChanged != null && itemCount > 1) {
             //just when we have an item more than default plus & arrive to end list
             onScrollChanged!!.onEndList()
         }
+
+        hl.v.txtTaskDesc.text = task.description
+        hl.v.txtTaskTitle.text = task.title
+
 
         val status = ""
     }

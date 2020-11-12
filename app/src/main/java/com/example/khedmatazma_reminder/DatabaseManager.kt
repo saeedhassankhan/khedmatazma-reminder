@@ -2,7 +2,7 @@ package com.example.khedmatazma_reminder
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.util.Log
+import com.example.khedmatazma_reminder.tasks.Task
 import java.io.File
 
 
@@ -129,6 +129,23 @@ class DatabaseManager {
         database.close()
 
         return id
+    }
+
+    fun getTasks() : ArrayList<Task>{
+        database = SQLiteDatabase.openOrCreateDatabase(dbAddress + "/" + DB_NAME, null)
+        val cursor = database!!.rawQuery("SELECT * FROM " + TABLE_TASKS, null)
+        var list = ArrayList<Task>()
+
+        while (cursor.moveToNext()) {
+            val task = Task()
+            task.id = cursor.getInt(cursor.getColumnIndex(TABLE_TASKS + "_id"))
+            task.description = cursor.getString(cursor.getColumnIndex("description"))
+            task.title = cursor.getString(cursor.getColumnIndex("title"))
+            task.fk_user = cursor.getInt(cursor.getColumnIndex("fk_user"))
+            list.add(task)
+        }
+
+        return list
     }
 
     private fun getLastRowId(database: SQLiteDatabase, tbName: String): Int {

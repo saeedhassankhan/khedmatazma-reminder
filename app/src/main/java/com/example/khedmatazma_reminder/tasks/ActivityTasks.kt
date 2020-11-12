@@ -16,13 +16,15 @@ import java.util.ArrayList
 class ActivityTasks : AppCompatActivity() {
 
     internal lateinit var adapterTasks: AdapterTasks
-
+    var taskList = ArrayList<Task>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tasks)
 
         initViews()
+
+        loadDbTasks()
 
         fab.setOnClickListener(){
             getNewTask(this)
@@ -33,12 +35,6 @@ class ActivityTasks : AppCompatActivity() {
     private fun initViews() {
         rcyclTasks.layoutManager =
                 StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)//Here 2 is no. of columns to be displayed
-
-        var taskList = ArrayList<Task>()
-
-        taskList.add(Task())
-        taskList.add(Task())
-        taskList.add(Task())
 
         adapterTasks = AdapterTasks(baseContext, taskList).setOnScrollChanged(object : AdapterTasks.OnScrollChanged{
             override fun onEndList() {
@@ -62,6 +58,8 @@ class ActivityTasks : AppCompatActivity() {
             var desc = dialog.edtTaskDesc.text.toString()
             var db = DatabaseManager()
             db.registerTask(G.getLogedInId() , title , desc)
+            loadDbTasks()
+            dialog.dismiss()
         }
 
         dialog.btnCancelNewTask.setOnClickListener(){
@@ -69,5 +67,14 @@ class ActivityTasks : AppCompatActivity() {
         }
 
         dialog.show();
+    }
+
+    fun loadDbTasks(){
+        var db = DatabaseManager();
+        var list = db.getTasks()
+        taskList.clear()
+        for ( i in list)
+            taskList.add(i)
+        adapterTasks.notifyDataSetChanged()
     }
 }
