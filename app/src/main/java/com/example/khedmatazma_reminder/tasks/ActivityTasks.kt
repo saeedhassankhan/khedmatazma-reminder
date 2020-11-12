@@ -2,18 +2,24 @@ package com.example.khedmatazma_reminder.tasks
 
 import android.app.Activity
 import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.khedmatazma_reminder.DatabaseManager
 import com.example.khedmatazma_reminder.G
 import com.example.khedmatazma_reminder.R
+import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
+import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout
+import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog
+import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import kotlinx.android.synthetic.main.activity_tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.*
-import java.util.ArrayList
+import java.util.*
 
-class ActivityTasks : AppCompatActivity() {
+
+class ActivityTasks : AppCompatActivity() , TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     internal lateinit var adapterTasks: AdapterTasks
     var taskList = ArrayList<Task>()
@@ -27,7 +33,17 @@ class ActivityTasks : AppCompatActivity() {
         loadDbTasks()
 
         fab.setOnClickListener(){
-            getNewTask(this)
+            //getNewTask(this)
+
+            val persianCalendar = PersianCalendar()
+            val datePickerDialog =
+                DatePickerDialog.newInstance(
+                    this,
+                    persianCalendar.persianYear,
+                    persianCalendar.persianMonth,
+                    persianCalendar.persianDay
+                )
+            datePickerDialog.show(getFragmentManager(), "Datepickerdialog")
         }
     }
 
@@ -76,5 +92,13 @@ class ActivityTasks : AppCompatActivity() {
         for ( i in list)
             taskList.add(i)
         adapterTasks.notifyDataSetChanged()
+    }
+
+    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        Log.i("id" , "" + year.toString() + (monthOfYear.toString() + 1) + dayOfMonth.toString())
     }
 }

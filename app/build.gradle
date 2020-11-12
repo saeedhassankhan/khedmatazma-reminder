@@ -49,6 +49,5 @@ dependencies {
 
     implementation "androidx.preference:preference-ktx:1.1.1"
 
-
-
+    implementation 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
 }
