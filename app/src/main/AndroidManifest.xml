@@ -10,7 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Khedmatazmareminder">
-        <activity android:name=".ActivityTasks"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Khedmatazmareminder.NoActionBar"></activity>
+        <activity android:name=".tasks.ActivityTask" />
+        <activity android:name=".tasks.ActivityTasks" />
         <activity android:name=".login.ActivityRegister" />
         <activity android:name=".login.ActivityLogin" />
         <activity android:name=".ActivitySplash">
