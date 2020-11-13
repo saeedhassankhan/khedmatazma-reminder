@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:gravity="center"
         android:hint="شماره موبایل"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/edtPassword" />
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:gravity="center"
         android:hint="رمز عبور"
         android:inputType="textPassword" />
 

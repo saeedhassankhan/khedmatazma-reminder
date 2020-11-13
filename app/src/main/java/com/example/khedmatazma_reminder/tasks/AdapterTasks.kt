@@ -24,6 +24,12 @@ class AdapterTasks(
 
     internal var onScrollChanged: OnScrollChanged? = null
 
+     lateinit var onEditTask : OnEditTask
+
+    fun setOnEditTask (onEditTask: OnEditTask): AdapterTasks{
+        this.onEditTask = onEditTask
+        return this
+    }
 
     init {
 
@@ -31,7 +37,6 @@ class AdapterTasks(
 
     override fun getItemCount(): Int {
         return arrayList?.size ?: 0
-
     }
 
     override fun onBindViewHolder(hl: ViewHolder, position: Int) {
@@ -42,9 +47,13 @@ class AdapterTasks(
             onScrollChanged!!.onEndList()
         }
 
+        hl.v.imgEdit.setOnClickListener{
+            if(onEditTask != null) {onEditTask.onEdit(task)}
+        }
         hl.v.txtTaskDesc.text = task.description
         hl.v.txtTaskTitle.text = task.title
-
+        hl.v.txtTaskDate.text = task.date
+        hl.v.txtTAskTime.text = task.time
 
         val status = ""
     }
@@ -74,6 +83,10 @@ class AdapterTasks(
 
     interface OnScrollChanged {
         fun onEndList()
+    }
+
+    interface OnEditTask{
+        fun onEdit(task : Task)
     }
 
 }

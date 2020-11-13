@@ -3,7 +3,6 @@ package com.example.khedmatazma_reminder.tasks
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -24,6 +23,7 @@ class ActivityTasks : AppCompatActivity()  {
 
     internal lateinit var adapterTasks: AdapterTasks
     var taskList = ArrayList<Task>()
+    private lateinit var activity : Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,14 @@ class ActivityTasks : AppCompatActivity()  {
 
         loadDbTasks()
 
+        activity = this
+
         fab.setOnClickListener{
             var task = Task();
             task.date = "1399/5/5"
             task.time = "5:15"
 
-            getNewTask(this  , task)
+            editTask(this  , task)
 
         }
     }
@@ -52,43 +54,54 @@ class ActivityTasks : AppCompatActivity()  {
             override fun onEndList() {
 
             }
-        })
+        }).setOnEditTask(object  : AdapterTasks.OnEditTask{
+            override fun onEdit(task: Task) {
+                editTask(activity , task)
+            }
+
+        });
         rcyclTasks.adapter = adapterTasks // set adapter on recyclerview
     }
 
     /**
      * if you dont have any time send items as ""
      */
-    private fun getNewTask(activity: Activity , task : Task?) {
+    private fun editTask(activity: Activity, task : Task?) {
         var dialog = Dialog(activity)
-        var mTask : Task
+        var mTask: Task
 
-        if(task != null){
+
+        if (task != null) {
             mTask = task
-        }else{
+        } else {
             mTask = Task()
             val pCal = PersianCalendar()
             mTask.date = pCal.persianYear.toString() + "/" + pCal.persianMonth.toString() + "/" + pCal.persianDay.toString()
             mTask.time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
         }
 
+        mTask.fk_user = G.getLogedInId()
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false);
+        dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_new_task)
 
         dialog.btnDialogDate.text = mTask.date
         dialog.btnDialogTime.text = mTask.time
+        dialog.edtTaskDesc.setText(mTask.description)
+        dialog.edtTaskTitle.setText(mTask.title)
 
         dialog.btnDialogTime.setOnClickListener {
-            showTimePicker(mTask , object : TimePickerDialog.OnTimeSetListener {
+            showTimePicker(mTask, object : TimePickerDialog.OnTimeSetListener {
                 override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
-                    mTask.title = hourOfDay.toString() + ":" + minute
-                    dialog.btnDialogTime.text = mTask.title
+                    mTask.time = hourOfDay.toString() + ":" + minute
+                    dialog.btnDialogTime.text = mTask.time
                 }
             })
         }
+
         dialog.btnDialogDate.setOnClickListener {
-            showDatePicker(mTask , object : DatePickerDialog.OnDateSetListener {
+            showDatePicker(mTask, object : DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
                     mTask.date = year.toString() + "/" + (monthOfYear + 1) + "/" + dayOfMonth
                     dialog.btnDialogDate.text = mTask.date
@@ -98,13 +111,16 @@ class ActivityTasks : AppCompatActivity()  {
 
 
 
-        dialog.btnRegisterNewTask.setOnClickListener{
-            var title = dialog.edtTaskTitle.text.toString()
-            var desc = dialog.edtTaskDesc.text.toString()
+        dialog.btnRegisterNewTask.setOnClickListener {
+            mTask.title = dialog.edtTaskTitle.text.toString()
+            mTask.description = dialog.edtTaskDesc.text.toString()
             var db = DatabaseManager()
 
-            //TODO( if task id exist update it else register new to db)
-            db.registerTask(G.getLogedInId(), title, desc)
+            if (mTask.id == 0) {// 0 means this task is new and no need to update that on db
+                db.registerTask(mTask)
+            } else {
+                db.updateTask(mTask)
+            }
 
             loadDbTasks()
             dialog.dismiss()
@@ -124,7 +140,7 @@ class ActivityTasks : AppCompatActivity()  {
                         pickerListener
                         ,
                         task.getYear().toInt(),
-                        task.getMonth().toInt(),
+                        task.getMonth().toInt() -1,
                         task.getDay().toInt()
                 )
         datePickerDialog.show(getFragmentManager(), "Datepickerdialog")
@@ -135,9 +151,10 @@ class ActivityTasks : AppCompatActivity()  {
         val tmPicker = TimePickerDialog.newInstance(listener , task.getHour().toInt() , task.getMinute().toInt() , false)
         tmPicker.show(getFragmentManager() , "TimePicker" )
     }
+
     fun loadDbTasks(){
         var db = DatabaseManager();
-        var list = db.getTasks()
+        var list = db.getTasks(G.getLogedInId())
         taskList.clear()
         for ( i in list)
             taskList.add(i)

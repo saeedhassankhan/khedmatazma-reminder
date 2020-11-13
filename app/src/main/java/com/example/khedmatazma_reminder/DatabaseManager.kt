@@ -56,6 +56,8 @@ class DatabaseManager {
                         "(" + TABLE_TASKS + "_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE " +
                         ",title STRING" +
                         ",description STRING" +
+                        ",date STRING" +
+                        ",time STRING" +
                         ",fk_user STRING" +
                         ")"
             )
@@ -114,26 +116,48 @@ class DatabaseManager {
 
     }
 
-     fun registerTask(id: Int, title: String, desc: String): Int {
+     fun registerTask(task : Task): Int {
         val database =
             SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
         //dont forget to put boolean's  in '' => 'value'
         database.execSQL(
-            "INSERT INTO " + TABLE_TASKS + " (title , description , fk_user)" +
-                    " VALUES ('" + title + "','" + desc + "','" + id + "')"
+            "INSERT INTO " + TABLE_TASKS + " (title , description , fk_user , date , time)" +
+                    " VALUES "
+                    + "('"
+                    + task.title
+                    + "','"
+                    + task.description
+                    + "','"
+                    + task.fk_user
+                    + "','"
+                    + task.date
+                    + "','"
+                    + task.time
+                    + "')"
         )
-
-
         val id = getLastRowId(database, TABLE_TASKS)
-
         database.close()
-
         return id
     }
 
-    fun getTasks() : ArrayList<Task>{
+
+    fun updateTask(task : Task){
+        database = SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
+        database!!.execSQL("UPDATE " + TABLE_TASKS + " SET " +
+                "title='" +
+                task.title +
+                "',description='" +
+                task.description +
+                "', date = '"  + task.date + "' , time = '" + task.time +
+                "' WHERE " +
+                TABLE_TASKS +
+                "_id=" +
+                task.id)
+    }
+
+    fun getTasks(fkUser : Int) : ArrayList<Task>{
         database = SQLiteDatabase.openOrCreateDatabase(dbAddress + "/" + DB_NAME, null)
-        val cursor = database!!.rawQuery("SELECT * FROM " + TABLE_TASKS, null)
+        val cursor = database!!.rawQuery("SELECT * FROM $TABLE_TASKS WHERE fk_user = $fkUser", null)
         var list = ArrayList<Task>()
 
         while (cursor.moveToNext()) {
@@ -142,6 +166,8 @@ class DatabaseManager {
             task.description = cursor.getString(cursor.getColumnIndex("description"))
             task.title = cursor.getString(cursor.getColumnIndex("title"))
             task.fk_user = cursor.getInt(cursor.getColumnIndex("fk_user"))
+            task.date = cursor.getString(cursor.getColumnIndex("date"))
+            task.time = cursor.getString(cursor.getColumnIndex("time"))
             list.add(task)
         }
 
@@ -149,9 +175,9 @@ class DatabaseManager {
     }
 
     private fun getLastRowId(database: SQLiteDatabase, tbName: String): Int {
-        val cursor: Cursor
-        cursor = database.rawQuery(
-            "SELECT * FROM " + tbName + " ORDER BY " + tbName + "_id" + " DESC LIMIT 1",
+        val cursor = database.rawQuery(
+            "SELECT * FROM  $tbName  ORDER BY  " + tbName + "_id" + " DESC LIMIT 1",
+
             null
         )
         var id = 0

@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:gravity="center"
+        android:hint="نام کاربری"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/edtPhoneNumber" />
 
     <EditText
@@ -24,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:gravity="center"
+        android:hint="شماره تلفن"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/edtPassword" />
 
@@ -33,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:gravity="center"
+        android:hint="پسورد"
         android:inputType="textPassword" />
 
     <Button
