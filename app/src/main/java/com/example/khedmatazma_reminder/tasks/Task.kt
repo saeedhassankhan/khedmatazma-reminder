@@ -1,5 +1,7 @@
 package com.example.khedmatazma_reminder.tasks
 
+import com.example.khedmatazma_reminder.CalendarTool
+
 class Task {
     var title : String = ""
     var description : String = ""
@@ -8,6 +10,13 @@ class Task {
     var date = ""
     var time = ""
 
+
+
+    fun getGregorianDate() : String{
+        val cal = CalendarTool()
+        cal.setIranianDate(getYear().toInt() , getMonth().toInt() , getDay().toInt())
+        return cal.gregorianDate
+    }
 
     fun getHour() : String{
         if(time.isNotEmpty()){
@@ -42,7 +51,6 @@ class Task {
             return date.split("/")[2]
         }
         return "-1"
-
     }
 
 

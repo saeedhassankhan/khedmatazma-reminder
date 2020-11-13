@@ -23,9 +23,6 @@ import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import ru.ifr0z.notify.MainActivity
-import ru.ifr0z.notify.R
-import ru.ifr0z.notify.extension.vectorToBitmap
 
 class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, params) {
 
@@ -37,7 +34,7 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
     }
 
     private fun sendNotification(id: Int) {
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val intent = Intent(applicationContext, ActivitySplash::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NOTIFICATION_ID, id)
 
@@ -49,7 +46,7 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
         val subtitleNotification = applicationContext.getString(R.string.notification_subtitle)
         val pendingIntent = getActivity(applicationContext, 0, intent, 0)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
-            .setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_schedule_white)
+            .setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_schedule_black_24dp)
             .setContentTitle(titleNotification).setContentText(subtitleNotification)
             .setDefaults(DEFAULT_ALL).setContentIntent(pendingIntent).setAutoCancel(true)
 

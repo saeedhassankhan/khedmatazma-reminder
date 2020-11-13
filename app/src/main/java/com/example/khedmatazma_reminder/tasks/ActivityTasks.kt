@@ -3,12 +3,15 @@ package com.example.khedmatazma_reminder.tasks
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.khedmatazma_reminder.DatabaseManager
-import com.example.khedmatazma_reminder.G
-import com.example.khedmatazma_reminder.R
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.example.khedmatazma_reminder.*
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog
@@ -17,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class ActivityTasks : AppCompatActivity()  {
@@ -36,11 +40,11 @@ class ActivityTasks : AppCompatActivity()  {
         activity = this
 
         fab.setOnClickListener{
-            var task = Task();
+           /* var task = Task();
             task.date = "1399/5/5"
-            task.time = "5:15"
+            task.time = "5:15"*/
 
-            editTask(this  , task)
+            editTask(this  , null)
 
         }
     }
@@ -76,7 +80,7 @@ class ActivityTasks : AppCompatActivity()  {
         } else {
             mTask = Task()
             val pCal = PersianCalendar()
-            mTask.date = pCal.persianYear.toString() + "/" + pCal.persianMonth.toString() + "/" + pCal.persianDay.toString()
+            mTask.date = pCal.persianYear.toString() + "/" + (pCal.persianMonth + 1).toString() + "/" + pCal.persianDay.toString()
             mTask.time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
         }
 
@@ -122,6 +126,8 @@ class ActivityTasks : AppCompatActivity()  {
                 db.updateTask(mTask)
             }
 
+            val taskToWork = TaskToWork()
+            taskToWork.setTask(mTask , this)
             loadDbTasks()
             dialog.dismiss()
         }
@@ -140,7 +146,7 @@ class ActivityTasks : AppCompatActivity()  {
                         pickerListener
                         ,
                         task.getYear().toInt(),
-                        task.getMonth().toInt() -1,
+                        task.getMonth().toInt() -1 ,
                         task.getDay().toInt()
                 )
         datePickerDialog.show(getFragmentManager(), "Datepickerdialog")
@@ -160,5 +166,6 @@ class ActivityTasks : AppCompatActivity()  {
             taskList.add(i)
         adapterTasks.notifyDataSetChanged()
     }
+
 
 }

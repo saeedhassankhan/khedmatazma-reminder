@@ -1,4 +1,4 @@
-package ru.ifr0z.notify.extension
+package com.example.khedmatazma_reminder
 
 import android.content.Context
 import android.graphics.Bitmap
