@@ -16,10 +16,11 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import kotlinx.android.synthetic.main.activity_tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ActivityTasks : AppCompatActivity() , TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+class ActivityTasks : AppCompatActivity()  {
 
     internal lateinit var adapterTasks: AdapterTasks
     var taskList = ArrayList<Task>()
@@ -32,18 +33,13 @@ class ActivityTasks : AppCompatActivity() , TimePickerDialog.OnTimeSetListener, 
 
         loadDbTasks()
 
-        fab.setOnClickListener(){
-            //getNewTask(this)
+        fab.setOnClickListener{
+            var task = Task();
+            task.date = "1399/5/5"
+            task.time = "5:15"
 
-            val persianCalendar = PersianCalendar()
-            val datePickerDialog =
-                DatePickerDialog.newInstance(
-                    this,
-                    persianCalendar.persianYear,
-                    persianCalendar.persianMonth,
-                    persianCalendar.persianDay
-                )
-            datePickerDialog.show(getFragmentManager(), "Datepickerdialog")
+            getNewTask(this  , task)
+
         }
     }
 
@@ -60,31 +56,85 @@ class ActivityTasks : AppCompatActivity() , TimePickerDialog.OnTimeSetListener, 
         rcyclTasks.adapter = adapterTasks // set adapter on recyclerview
     }
 
-    private fun getNewTask(activity: Activity) {
+    /**
+     * if you dont have any time send items as ""
+     */
+    private fun getNewTask(activity: Activity , task : Task?) {
+        var dialog = Dialog(activity)
+        var mTask : Task
 
-        var  dialog =  Dialog(activity);
+        if(task != null){
+            mTask = task
+        }else{
+            mTask = Task()
+            val pCal = PersianCalendar()
+            mTask.date = pCal.persianYear.toString() + "/" + pCal.persianMonth.toString() + "/" + pCal.persianDay.toString()
+            mTask.time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+        }
 
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_new_task);
+        dialog.setContentView(R.layout.dialog_new_task)
 
-        dialog.btnRegisterNewTask.setOnClickListener(){
+        dialog.btnDialogDate.text = mTask.date
+        dialog.btnDialogTime.text = mTask.time
+
+        dialog.btnDialogTime.setOnClickListener {
+            showTimePicker(mTask , object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
+                    mTask.title = hourOfDay.toString() + ":" + minute
+                    dialog.btnDialogTime.text = mTask.title
+                }
+            })
+        }
+        dialog.btnDialogDate.setOnClickListener {
+            showDatePicker(mTask , object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                    mTask.date = year.toString() + "/" + (monthOfYear + 1) + "/" + dayOfMonth
+                    dialog.btnDialogDate.text = mTask.date
+                }
+            })
+        }
+
+
+
+        dialog.btnRegisterNewTask.setOnClickListener{
             var title = dialog.edtTaskTitle.text.toString()
             var desc = dialog.edtTaskDesc.text.toString()
             var db = DatabaseManager()
-            db.registerTask(G.getLogedInId() , title , desc)
+
+            //TODO( if task id exist update it else register new to db)
+            db.registerTask(G.getLogedInId(), title, desc)
+
             loadDbTasks()
             dialog.dismiss()
         }
 
-        dialog.btnCancelNewTask.setOnClickListener(){
+        dialog.btnCancelNewTask.setOnClickListener() {
             dialog.dismiss()
         }
 
-        dialog.show();
+        dialog.show()
     }
 
+    fun showDatePicker(task : Task , pickerListener : DatePickerDialog.OnDateSetListener){
+        val persianCalendar = PersianCalendar()
+        val datePickerDialog =
+                DatePickerDialog.newInstance(
+                        pickerListener
+                        ,
+                        task.getYear().toInt(),
+                        task.getMonth().toInt(),
+                        task.getDay().toInt()
+                )
+        datePickerDialog.show(getFragmentManager(), "Datepickerdialog")
+    }
+
+    fun showTimePicker(task : Task , listener : TimePickerDialog.OnTimeSetListener){
+        val pCal = PersianCalendar()
+        val tmPicker = TimePickerDialog.newInstance(listener , task.getHour().toInt() , task.getMinute().toInt() , false)
+        tmPicker.show(getFragmentManager() , "TimePicker" )
+    }
     fun loadDbTasks(){
         var db = DatabaseManager();
         var list = db.getTasks()
@@ -94,11 +144,4 @@ class ActivityTasks : AppCompatActivity() , TimePickerDialog.OnTimeSetListener, 
         adapterTasks.notifyDataSetChanged()
     }
 
-    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        Log.i("id" , "" + year.toString() + (monthOfYear.toString() + 1) + dayOfMonth.toString())
-    }
 }

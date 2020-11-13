@@ -14,17 +14,14 @@ class ActivityRegister : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-
         btnRegister.setOnClickListener(){
             validate()
-
         }
 
         btnGoToSign.setOnClickListener(){
             startActivity(Intent(baseContext , ActivityLogin::class.java))
             finish()
         }
-
     }
 
     fun validate(){

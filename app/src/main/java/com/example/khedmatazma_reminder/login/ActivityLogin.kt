@@ -13,22 +13,19 @@ class ActivityLogin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btnSign.setOnClickListener(){
+        btnSign.setOnClickListener{
             var phoneNumber = edtPhoneNumber.text.toString()
             var password = edtPassword.text.toString()
 
             checkInputs(phoneNumber , password);
         }
-        btnGoToRegister.setOnClickListener(){
+        btnGoToRegister.setOnClickListener{
             startActivity(Intent(baseContext , ActivityRegister::class.java))
             finish()
         }
-
-
     }
 
     private fun checkInputs(phoneNumber : String , password : String){
-
         var db = DatabaseManager()
         var id = db.searchUser(phoneNumber , password)
 
