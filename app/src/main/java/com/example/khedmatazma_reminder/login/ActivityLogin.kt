@@ -18,7 +18,7 @@ class ActivityLogin : AppCompatActivity() {
             var phoneNumber = edtPhoneNumber.text.toString()
             var password = cHash.md5(edtPassword.text.toString())
 
-            checkInputs(phoneNumber , password);
+            checkInputs(phoneNumber , password)
         }
         btnGoToRegister.setOnClickListener{
             startActivity(Intent(baseContext , ActivityRegister::class.java))

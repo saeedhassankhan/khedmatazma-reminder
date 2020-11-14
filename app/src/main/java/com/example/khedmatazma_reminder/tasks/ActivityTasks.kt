@@ -48,7 +48,7 @@ class ActivityTasks : AppCompatActivity()  {
 
         imgExitAccount.setOnClickListener{
             G.setLogedInId(0)
-            startActivity(Intent( this , ActivitySplash::class.java))
+            startActivity(Intent(this , ActivitySplash::class.java))
             finish()
         }
     }
@@ -167,7 +167,7 @@ class ActivityTasks : AppCompatActivity()  {
         var list = db.getTasks(G.getLogedInId())
         taskList.clear()
         for ( i in list)
-            taskList.add(i)
+            taskList.add(0, i)
         adapterTasks.notifyDataSetChanged()
     }
 

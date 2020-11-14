@@ -12,6 +12,7 @@ import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_SUB
 import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_TITLE
 import com.example.khedmatazma_reminder.R
 import com.google.android.material.snackbar.Snackbar
+import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import kotlinx.android.synthetic.main.activity_tasks.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,21 +49,17 @@ class TaskToWork {
 
             val delay = customTime - currentTime
             scheduleNotification(delay, data , task.id.toString())
-
-            val titleNotificationSchedule =activity.getString(R.string.notification_schedule_title)
+            val titleNotificationSchedule = activity.getString(R.string.notification_schedule_title)
             val patternNotificationSchedule = activity.getString(R.string.notification_schedule_pattern)
             Snackbar.make(
-                activity.coordinator_l ,
-                titleNotificationSchedule + SimpleDateFormat(
-                    patternNotificationSchedule, Locale.getDefault()
-                ).format(customCalendar.time).toString(),
+                activity.coordinator_l,
+                titleNotificationSchedule + " " + task.date + " " + task.time,
                 Snackbar.LENGTH_LONG
             ).show()
         } else {
             val errorNotificationSchedule = activity.getString(R.string.notification_schedule_error)
             Snackbar.make(activity.coordinator_l , errorNotificationSchedule, Snackbar.LENGTH_LONG).show()
         }
-
     }
 
     private fun scheduleNotification(delay: Long, data: Data , id : String) {
