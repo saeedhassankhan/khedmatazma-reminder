@@ -7,6 +7,9 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.example.khedmatazma_reminder.NotifyWork
+import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_ID
+import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_SUB
+import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_TITLE
 import com.example.khedmatazma_reminder.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_tasks.*
@@ -37,11 +40,16 @@ class TaskToWork {
         val customTime = customCalendar.timeInMillis
         val currentTime = System.currentTimeMillis()
         if (customTime > currentTime) {
-            val data = Data.Builder().putInt(task.id.toString(), 0).build()
+            val data = Data.Builder()
+                    .putInt(NOTIFICATION_ID, task.id)
+                    .putString(NOTIFICATION_TITLE , task.title)
+                    .putString(NOTIFICATION_SUB , task.description)
+                    .build()
+
             val delay = customTime - currentTime
             scheduleNotification(delay, data , task.id.toString())
 
-            val titleNotificationSchedule = activity.getString(R.string.notification_schedule_title)
+            val titleNotificationSchedule =activity.getString(R.string.notification_schedule_title)
             val patternNotificationSchedule = activity.getString(R.string.notification_schedule_pattern)
             Snackbar.make(
                 activity.coordinator_l ,

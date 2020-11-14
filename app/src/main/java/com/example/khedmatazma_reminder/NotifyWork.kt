@@ -30,12 +30,15 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
 
     override fun doWork(): Result {
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
-        sendNotification(id)
+        val title = inputData.getString(NOTIFICATION_TITLE)
+        val sub = inputData.getString(NOTIFICATION_SUB)
+
+        sendNotification(id , title , sub)
 
         return success()
     }
 
-    private fun sendNotification(id: Int) {
+    private fun sendNotification(id: Int , title : String? , sub : String?) {
         val intent = Intent(applicationContext, ActivitySplash::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NOTIFICATION_ID, id)
@@ -44,8 +47,8 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         val bitmap = applicationContext.vectorToBitmap(R.drawable.ic_schedule_black_24dp)
-        val titleNotification = applicationContext.getString(R.string.notification_title)
-        val subtitleNotification = applicationContext.getString(R.string.notification_subtitle)
+        val titleNotification = title //applicationContext.getString(R.string.notification_title)
+        val subtitleNotification = sub //applicationContext.getString(R.string.notification_subtitle)
         val pendingIntent = getActivity(applicationContext, 0, intent, 0)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
             .setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_schedule_black_24dp)
@@ -79,6 +82,8 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
         const val NOTIFICATION_ID = "appName_notification_id"
         const val NOTIFICATION_NAME = "appName"
         const val NOTIFICATION_CHANNEL = "appName_channel_01"
+        const val NOTIFICATION_TITLE = "notification_title"
+        const val NOTIFICATION_SUB = "notification_sub"
         const val NOTIFICATION_WORK = "appName_notification_work"
 
 
