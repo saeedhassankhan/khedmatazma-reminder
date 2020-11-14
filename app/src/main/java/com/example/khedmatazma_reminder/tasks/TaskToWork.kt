@@ -1,6 +1,7 @@
 package com.example.khedmatazma_reminder.tasks
 
 import android.app.Activity
+import android.content.Context
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -8,7 +9,6 @@ import androidx.work.WorkManager
 import com.example.khedmatazma_reminder.NotifyWork
 import com.example.khedmatazma_reminder.R
 import com.google.android.material.snackbar.Snackbar
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import kotlinx.android.synthetic.main.activity_tasks.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,6 +16,12 @@ import java.util.concurrent.TimeUnit
 
 class TaskToWork {
     private lateinit var  activity : Activity
+
+    fun stopTask(id : String , context: Context){
+        WorkManager.getInstance(context).cancelUniqueWork(id)
+    }
+
+
     fun setTask(task : Task , activity : Activity){
         this.activity = activity
 
@@ -26,12 +32,14 @@ class TaskToWork {
         customCalendar.set(
             splitedDate[0].toInt(), splitedDate[1].toInt() - 1, splitedDate[2].toInt(), task.getHour().toInt(), task.getMinute().toInt(), 0
         )
+
+
         val customTime = customCalendar.timeInMillis
         val currentTime = System.currentTimeMillis()
         if (customTime > currentTime) {
             val data = Data.Builder().putInt(task.id.toString(), 0).build()
             val delay = customTime - currentTime
-            scheduleNotification(delay, data)
+            scheduleNotification(delay, data , task.id.toString())
 
             val titleNotificationSchedule = activity.getString(R.string.notification_schedule_title)
             val patternNotificationSchedule = activity.getString(R.string.notification_schedule_pattern)
@@ -49,7 +57,7 @@ class TaskToWork {
 
     }
 
-    private fun scheduleNotification(delay: Long, data: Data) {
+    private fun scheduleNotification(delay: Long, data: Data , id : String) {
         val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
 
@@ -59,7 +67,7 @@ class TaskToWork {
         //instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, REPLACE, notificationWork).enqueue()
 
         instanceWorkManager.beginUniqueWork(
-            System.currentTimeMillis().toString(),
+            id,
             ExistingWorkPolicy.REPLACE, notificationWork).enqueue()
     }
 

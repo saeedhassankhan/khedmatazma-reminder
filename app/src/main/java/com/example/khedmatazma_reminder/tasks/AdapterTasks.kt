@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.khedmatazma_reminder.DatabaseManager
 import com.example.khedmatazma_reminder.R
 import kotlinx.android.synthetic.main.struct_task.view.*
 
@@ -50,6 +51,16 @@ class AdapterTasks(
         hl.v.imgEdit.setOnClickListener{
             if(onEditTask != null) {onEditTask.onEdit(task)}
         }
+
+        hl.v.imgDelete.setOnClickListener{
+            var db = DatabaseManager()
+            db.deleteTask(task.id)
+            arrayList.remove(task)
+            var taskToWork = TaskToWork()
+            taskToWork.stopTask(task.id.toString() , context)
+            notifyDataSetChanged()
+        }
+
         hl.v.txtTaskDesc.text = task.description
         hl.v.txtTaskTitle.text = task.title
         hl.v.txtTaskDate.text = task.date
@@ -63,7 +74,8 @@ class AdapterTasks(
             .inflate(R.layout.struct_task, viewGroup, false)
         return ViewHolder(v)
     }
-    //***********************************
+
+    //**************************************************************
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // View holder for gridview recycler view as we used in listview

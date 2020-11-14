@@ -121,7 +121,7 @@ class ActivityTasks : AppCompatActivity()  {
             var db = DatabaseManager()
 
             if (mTask.id == 0) {// 0 means this task is new and no need to update that on db
-                db.registerTask(mTask)
+                mTask.id = db.registerTask(mTask)
             } else {
                 db.updateTask(mTask)
             }

@@ -153,6 +153,7 @@ class DatabaseManager {
                 TABLE_TASKS +
                 "_id=" +
                 task.id)
+        database?.close()
     }
 
     fun getTasks(fkUser : Int) : ArrayList<Task>{
@@ -171,13 +172,13 @@ class DatabaseManager {
             list.add(task)
         }
 
+        database?.close()
         return list
     }
 
     private fun getLastRowId(database: SQLiteDatabase, tbName: String): Int {
         val cursor = database.rawQuery(
             "SELECT * FROM  $tbName  ORDER BY  " + tbName + "_id" + " DESC LIMIT 1",
-
             null
         )
         var id = 0
@@ -185,5 +186,10 @@ class DatabaseManager {
             id = cursor.getInt(cursor.getColumnIndex(tbName + "_id"))
         }
         return id
+    }
+
+    fun deleteTask(id: Int) {
+        database = SQLiteDatabase.openOrCreateDatabase("$dbAddress/$DB_NAME", null)
+        database?.execSQL("DELETE FROM " + TABLE_TASKS + " WHERE " + TABLE_TASKS + "_id =" + id)
     }
 }
