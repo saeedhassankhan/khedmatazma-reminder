@@ -2,6 +2,7 @@ package com.example.khedmatazma_reminder.tasks
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
@@ -31,6 +32,8 @@ class ActivityTasks : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getSupportActionBar()?.hide()
+
         setContentView(R.layout.activity_tasks)
 
         initViews()
@@ -40,12 +43,13 @@ class ActivityTasks : AppCompatActivity()  {
         activity = this
 
         fab.setOnClickListener{
-           /* var task = Task();
-            task.date = "1399/5/5"
-            task.time = "5:15"*/
-
             editTask(this  , null)
+        }
 
+        imgExitAccount.setOnClickListener{
+            G.setLogedInId(0)
+            startActivity(Intent( this , ActivitySplash::class.java))
+            finish()
         }
     }
 
@@ -63,7 +67,7 @@ class ActivityTasks : AppCompatActivity()  {
                 editTask(activity , task)
             }
 
-        });
+        })
         rcyclTasks.adapter = adapterTasks // set adapter on recyclerview
     }
 

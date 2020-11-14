@@ -21,12 +21,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.DEFAULT_ALL
 import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import androidx.work.ListenableWorker.Result.success
-import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 
 class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, params) {
-
 
     override fun doWork(): Result {
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()

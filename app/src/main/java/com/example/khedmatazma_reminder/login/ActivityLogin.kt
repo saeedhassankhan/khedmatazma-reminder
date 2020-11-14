@@ -12,10 +12,11 @@ class ActivityLogin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+         var cHash = CHash()
 
         btnSign.setOnClickListener{
             var phoneNumber = edtPhoneNumber.text.toString()
-            var password = edtPassword.text.toString()
+            var password = cHash.md5(edtPassword.text.toString())
 
             checkInputs(phoneNumber , password);
         }

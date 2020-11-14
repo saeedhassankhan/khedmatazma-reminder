@@ -43,7 +43,8 @@ class ActivityRegister : AppCompatActivity() {
         }else if(validation.pass(pass) != CORRECT){
             toast.show(baseContext , vPass)
         }else{
-            register(userName , phoneNumber , pass)
+            var cHash = CHash()
+            register(userName , phoneNumber , cHash.md5(pass))
         }
     }
 
