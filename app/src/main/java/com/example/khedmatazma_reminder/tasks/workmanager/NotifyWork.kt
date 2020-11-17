@@ -1,4 +1,4 @@
-package com.example.khedmatazma_reminder
+package com.example.khedmatazma_reminder.tasks.workmanager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -23,6 +23,8 @@ import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.khedmatazma_reminder.ActivitySplash
+import com.example.khedmatazma_reminder.R
 
 class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, params) {
 

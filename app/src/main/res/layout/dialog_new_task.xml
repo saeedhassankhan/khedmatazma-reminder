@@ -3,25 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingTop="16dp"
+    android:paddingRight="8dp">
 
-    <EditText
-        android:id="@+id/edtTaskTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:ems="10"
-        android:hint="عنوان"
-        android:inputType="textPersonName" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/edtTaskDesc"
+        <EditText
+            android:id="@+id/edtTaskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="عنوان"
+            android:inputType="textPersonName" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:alpha=".8"
+            app:srcCompat="@drawable/ic_header" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:ems="10"
-        android:hint="توضیحات"
-        android:inputType="textPersonName" />
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtTaskDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="توضیحات"
+            android:inputType="text"
+            android:minHeight="86dp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:alpha=".8"
+            app:srcCompat="@drawable/ic_desc" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,16 +70,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@drawable/rect_all_side_radius_empty_blue"
             android:text="1397/8/5"
-            app:backgroundTint="#4CAF50" />
+            android:textColor="@color/md_light_blue_800" />
 
         <Button
             android:id="@+id/btnDialogTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@drawable/rect_all_side_radius_empty_blue"
             android:text="12:14"
-            app:backgroundTint="#4CAF50" />
+            android:textColor="@color/md_light_blue_800" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,13 +94,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="ثبت" />
+            android:background="@drawable/rect_all_side_radius_blue"
+            android:text="ثبت"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/btnCancelNewTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:background="@drawable/rect_all_side_radius"
             android:text="لغو" />
     </LinearLayout>
 </LinearLayout>

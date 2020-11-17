@@ -1,4 +1,4 @@
-package com.example.khedmatazma_reminder.tasks
+package com.example.khedmatazma_reminder.tasks.workmanager
 
 import android.app.Activity
 import android.content.Context
@@ -6,15 +6,13 @@ import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.example.khedmatazma_reminder.NotifyWork
-import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_ID
-import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_SUB
-import com.example.khedmatazma_reminder.NotifyWork.Companion.NOTIFICATION_TITLE
+import com.example.khedmatazma_reminder.tasks.workmanager.NotifyWork.Companion.NOTIFICATION_ID
+import com.example.khedmatazma_reminder.tasks.workmanager.NotifyWork.Companion.NOTIFICATION_SUB
+import com.example.khedmatazma_reminder.tasks.workmanager.NotifyWork.Companion.NOTIFICATION_TITLE
 import com.example.khedmatazma_reminder.R
+import com.example.khedmatazma_reminder.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import kotlinx.android.synthetic.main.activity_tasks.*
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -26,7 +24,7 @@ class TaskToWork {
     }
 
 
-    fun setTask(task : Task , activity : Activity){
+    fun setTask(task : Task, activity : Activity){
         this.activity = activity
 
         val gDate = task.getGregorianDate()

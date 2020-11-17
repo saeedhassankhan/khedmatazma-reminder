@@ -1,6 +1,6 @@
 package com.example.khedmatazma_reminder.tasks
 
-import com.example.khedmatazma_reminder.CalendarTool
+import com.example.khedmatazma_reminder.utilities.CalendarTool
 
 class Task {
     var title : String = ""

@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.khedmatazma_reminder.*
 import com.example.khedmatazma_reminder.tasks.ActivityTasks
+import com.example.khedmatazma_reminder.ui.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.utilities.CHash
+import com.example.khedmatazma_reminder.utilities.CToast
+import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class ActivityLogin : AppCompatActivity() {
+class ActivityLogin : BaseAppCompactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
          var cHash = CHash()
 
         btnSign.setOnClickListener{

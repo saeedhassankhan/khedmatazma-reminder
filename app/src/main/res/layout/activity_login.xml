@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,48 +8,92 @@
     android:orientation="vertical"
     tools:context=".login.ActivityLogin">
 
-    <EditText
-        android:id="@+id/edtPhoneNumber"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@drawable/rect_all_side_radius"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="شماره موبایل"
-        android:inputType="phone"
-        android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/edtPassword" />
+    <include
+        layout="@layout/oval_items"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></include>
 
-    <EditText
-        android:id="@+id/edtPassword"
-        android:layout_width="350dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@drawable/rect_all_side_radius"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="رمز عبور"
-        android:inputType="textPassword"
-        android:padding="8dp" />
+        android:layout_margin="16dp"
+        android:background="@drawable/oval_all_side_radius_white"
+        android:padding="18dp"
+        app:cardElevation="6dp"
+        app:cardMaxElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnSign"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rect_all_side_radius_blue"
-        android:text="ورود" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:weightSum="1">
 
-    <Button
-        android:id="@+id/btnGoToRegister"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rect_all_side_radius"
-        android:shadowColor="@android:color/transparent"
-        android:text="ثبت نام"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:backgroundTint="@android:color/transparent" />
-</LinearLayout>
+            <EditText
+                android:id="@+id/edtPhoneNumber"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rect_all_side_radius"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:hint="شماره موبایل"
+                android:inputType="phone"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rect_all_side_radius"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="رمز عبور"
+                android:inputType="textPassword"
+                android:padding="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/btnSign"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:background="@drawable/rect_all_side_radius_blue"
+                    android:text="ورود"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnGoToRegister"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rect_all_side_radius"
+                android:shadowColor="@android:color/transparent"
+                android:text="ثبت نام"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                app:backgroundTint="@android:color/transparent" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

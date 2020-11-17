@@ -4,15 +4,14 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.work.Data
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.example.khedmatazma_reminder.*
+import com.example.khedmatazma_reminder.tasks.workmanager.TaskToWork
+import com.example.khedmatazma_reminder.ui.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog
@@ -21,10 +20,9 @@ import kotlinx.android.synthetic.main.activity_tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
-class ActivityTasks : AppCompatActivity()  {
+class ActivityTasks : BaseAppCompactActivity()  {
 
     internal lateinit var adapterTasks: AdapterTasks
     var taskList = ArrayList<Task>()
@@ -39,6 +37,7 @@ class ActivityTasks : AppCompatActivity()  {
         initViews()
 
         loadDbTasks()
+        checkEmpty()
 
         activity = this
 
@@ -51,9 +50,18 @@ class ActivityTasks : AppCompatActivity()  {
             startActivity(Intent(this , ActivitySplash::class.java))
             finish()
         }
+
+
     }
 
 
+    private fun checkEmpty(){
+        if(taskList.isEmpty()){
+            lytEmptyList.visibility = View.VISIBLE
+        }else{
+            lytEmptyList.visibility = View.GONE
+        }
+    }
     private fun initViews() {
         rcyclTasks.layoutManager =
                 StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)//Here 2 is no. of columns to be displayed
@@ -65,6 +73,11 @@ class ActivityTasks : AppCompatActivity()  {
         }).setOnEditTask(object  : AdapterTasks.OnEditTask{
             override fun onEdit(task: Task) {
                 editTask(activity , task)
+            }
+
+        }).setOnEmptyList(object : AdapterTasks.OnEmptyList{
+            override fun onEmptyCheck() {
+                checkEmpty()
             }
 
         })

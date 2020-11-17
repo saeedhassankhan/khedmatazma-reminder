@@ -6,19 +6,23 @@ import android.os.Bundle
 import com.example.khedmatazma_reminder.*
 import com.example.khedmatazma_reminder.login.Validator.Companion.CORRECT
 import com.example.khedmatazma_reminder.tasks.ActivityTasks
+import com.example.khedmatazma_reminder.ui.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.utilities.CHash
+import com.example.khedmatazma_reminder.utilities.CToast
+import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import kotlinx.android.synthetic.main.activity_register.*
 
 
-class ActivityRegister : AppCompatActivity() {
+class ActivityRegister : BaseAppCompactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        btnRegister.setOnClickListener(){
+        btnRegister.setOnClickListener{
             validate()
         }
 
-        btnGoToSign.setOnClickListener(){
+        btnGoToSign.setOnClickListener{
             startActivity(Intent(baseContext , ActivityLogin::class.java))
             finish()
         }

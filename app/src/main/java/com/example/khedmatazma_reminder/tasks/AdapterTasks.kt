@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.khedmatazma_reminder.DatabaseManager
+import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import com.example.khedmatazma_reminder.R
+import com.example.khedmatazma_reminder.tasks.workmanager.TaskToWork
 import kotlinx.android.synthetic.main.struct_task.view.*
 
 import java.util.ArrayList
@@ -26,11 +27,18 @@ class AdapterTasks(
     internal var onScrollChanged: OnScrollChanged? = null
 
      lateinit var onEditTask : OnEditTask
+    lateinit var onEmptyList : OnEmptyList
 
     fun setOnEditTask (onEditTask: OnEditTask): AdapterTasks{
         this.onEditTask = onEditTask
         return this
     }
+
+    fun setOnEmptyList(onEmptyList : OnEmptyList) : AdapterTasks{
+        this.onEmptyList = onEmptyList
+        return this
+    }
+
 
     init {
 
@@ -42,6 +50,8 @@ class AdapterTasks(
 
     override fun onBindViewHolder(hl: ViewHolder, position: Int) {
         val task = arrayList!![position]
+
+        onEmptyList.onEmptyCheck()
 
         if (itemCount - 1 == position && onScrollChanged != null && itemCount > 1) {
             //just when we have an item more than default plus & arrive to end list
@@ -59,6 +69,7 @@ class AdapterTasks(
             var taskToWork = TaskToWork()
             taskToWork.stopTask(task.id.toString() , context)
             notifyDataSetChanged()
+            onEmptyList.onEmptyCheck()
         }
 
         hl.v.txtTaskDesc.text = task.description
@@ -99,6 +110,10 @@ class AdapterTasks(
 
     interface OnEditTask{
         fun onEdit(task : Task)
+    }
+
+    interface OnEmptyList{
+        fun onEmptyCheck()
     }
 
 }

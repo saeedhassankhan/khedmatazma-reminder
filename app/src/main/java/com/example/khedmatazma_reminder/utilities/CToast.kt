@@ -1,4 +1,4 @@
-package com.example.khedmatazma_reminder
+package com.example.khedmatazma_reminder.utilities
 
 import android.content.Context
 import android.widget.Toast

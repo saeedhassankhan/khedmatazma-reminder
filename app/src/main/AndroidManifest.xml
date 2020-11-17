@@ -5,11 +5,11 @@
     <application
         android:name=".G"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_reminder"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_reminder"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Khedmatazmareminder">
+        android:theme="@style/AppTheme">
 
         <activity android:name=".tasks.ActivityTasks">
         </activity>
@@ -18,7 +18,6 @@
         <activity android:name=".ActivitySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

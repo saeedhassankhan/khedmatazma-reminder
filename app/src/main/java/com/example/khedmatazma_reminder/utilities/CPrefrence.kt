@@ -1,4 +1,6 @@
-package com.example.khedmatazma_reminder
+package com.example.khedmatazma_reminder.utilities
+
+import com.example.khedmatazma_reminder.G
 
 class CPrefrence {
     fun save(key: String?, value: Int) {

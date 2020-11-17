@@ -3,6 +3,8 @@ package com.example.khedmatazma_reminder
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.example.khedmatazma_reminder.utilities.CPrefrences
+import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import java.io.File
 
 class G : Application(){
