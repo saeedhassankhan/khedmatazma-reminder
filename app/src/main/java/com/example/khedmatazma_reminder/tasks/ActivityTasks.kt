@@ -6,11 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.khedmatazma_reminder.*
 import com.example.khedmatazma_reminder.tasks.workmanager.TaskToWork
-import com.example.khedmatazma_reminder.ui.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.global.G
 import com.example.khedmatazma_reminder.utilities.DatabaseManager
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout
@@ -45,7 +45,7 @@ class ActivityTasks : BaseAppCompactActivity()  {
             editTask(this  , null)
         }
 
-        imgExitAccount.setOnClickListener{
+        lytExit.setOnClickListener{
             G.setLogedInId(0)
             startActivity(Intent(this , ActivitySplash::class.java))
             finish()

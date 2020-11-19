@@ -2,6 +2,7 @@ package com.example.khedmatazma_reminder
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.khedmatazma_reminder.global.G
 import com.example.khedmatazma_reminder.login.ActivityRegister
 import com.example.khedmatazma_reminder.tasks.ActivityTasks
 

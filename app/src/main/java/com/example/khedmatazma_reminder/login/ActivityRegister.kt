@@ -1,12 +1,13 @@
 package com.example.khedmatazma_reminder.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import com.example.khedmatazma_reminder.*
 import com.example.khedmatazma_reminder.login.Validator.Companion.CORRECT
 import com.example.khedmatazma_reminder.tasks.ActivityTasks
-import com.example.khedmatazma_reminder.ui.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.BaseAppCompactActivity
+import com.example.khedmatazma_reminder.global.G
 import com.example.khedmatazma_reminder.utilities.CHash
 import com.example.khedmatazma_reminder.utilities.CToast
 import com.example.khedmatazma_reminder.utilities.DatabaseManager
@@ -17,6 +18,9 @@ class ActivityRegister : BaseAppCompactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        var animation = AnimationUtils.loadAnimation(this , R.anim.uptodown)
+        crdRegisterContainer.startAnimation(animation)
 
         btnRegister.setOnClickListener{
             validate()

@@ -8,11 +8,21 @@
     tools:context=".tasks.ActivityTasks">
 
     <LinearLayout
+        android:id="@+id/lytExit"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/colorPrimary"
-        android:gravity="right"
+        android:gravity="center|right"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:text="خروج از حساب"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
 
         <ImageView
             android:id="@+id/imgExitAccount"

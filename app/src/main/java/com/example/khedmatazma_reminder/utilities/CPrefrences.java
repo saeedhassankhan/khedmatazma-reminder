@@ -2,7 +2,7 @@ package com.example.khedmatazma_reminder.utilities;
 
 import android.content.SharedPreferences;
 
-import com.example.khedmatazma_reminder.G;
+import com.example.khedmatazma_reminder.global.G;
 
 /**
  * Created by saeed on 2/6/2016.

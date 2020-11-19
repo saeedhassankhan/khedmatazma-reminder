@@ -17,12 +17,14 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/crdRegisterContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="6dp"
         app:cardMaxElevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +86,7 @@
                 android:weightSum="1">
 
                 <Button
+                    android:transitionName="btnSign"
                     android:id="@+id/btnRegister"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

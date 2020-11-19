@@ -2,7 +2,7 @@ package com.example.khedmatazma_reminder.utilities
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.khedmatazma_reminder.G
+import com.example.khedmatazma_reminder.global.G
 import com.example.khedmatazma_reminder.tasks.Task
 import java.io.File
 
